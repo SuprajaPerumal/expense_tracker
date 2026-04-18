@@ -1043,105 +1043,6 @@
   }
   @keyframes pop{ 0%{ transform: scale(.6); opacity:0 } 100%{ transform: scale(1); opacity:1 } }
 
-  /* ============== App Lock (PIN) ============== */
-  .lock-screen{
-    position: fixed; inset:0; z-index: 200;
-    background:
-      radial-gradient(900px 500px at 20% 10%, rgba(124,92,255,.18), transparent 70%),
-      radial-gradient(800px 500px at 80% 100%, rgba(255,92,168,.14), transparent 70%),
-      linear-gradient(180deg, #0a0820 0%, #06051a 100%);
-    display:grid; place-items:center; padding: 24px;
-    animation: fadeUp .35s ease both;
-  }
-  .lock-card{
-    width: 100%; max-width: 360px;
-    padding: 28px 24px;
-    border-radius: 28px;
-    background: var(--surface);
-    border: 1px solid var(--stroke);
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,.5);
-    text-align: center;
-  }
-  .lock-logo{
-    width: 60px; height: 60px; border-radius: 18px;
-    margin: 0 auto 14px;
-    background: linear-gradient(135deg, var(--brand-a), var(--brand-b));
-    display: grid; place-items: center;
-    font-size: 26px;
-    box-shadow: var(--shadow-glow);
-  }
-  .lock-card h2{ font-size: 20px; font-weight: 800; margin-bottom: 4px }
-  .lock-sub{ font-size: 13px; color: var(--text-dim); margin-bottom: 22px }
-  .pin-display{
-    display: flex; gap: 14px; justify-content: center;
-    margin-bottom: 12px;
-  }
-  .pin-dot{
-    width: 14px; height: 14px; border-radius: 50%;
-    background: rgba(255,255,255,.08);
-    border: 1px solid var(--stroke);
-    transition: transform .15s ease, background .2s ease, border-color .2s ease;
-  }
-  .pin-dot.on{
-    background: linear-gradient(135deg, var(--brand-a), var(--brand-b));
-    border-color: transparent;
-    transform: scale(1.1);
-  }
-  .pin-error{
-    min-height: 18px; font-size: 12.5px; font-weight: 700;
-    color: var(--danger); margin-bottom: 10px;
-  }
-  .pin-pad{
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 10px; margin: 10px 0 14px;
-  }
-  .pin-key{
-    height: 56px; border-radius: 16px;
-    background: var(--surface); border: 1px solid var(--stroke);
-    color: var(--text); font-size: 22px; font-weight: 600;
-    transition: transform .12s ease, background .2s ease;
-  }
-  .pin-key:hover{ background: var(--surface-2) }
-  .pin-key:active{ transform: scale(.94) }
-  .pin-key.ghost{ background: transparent; font-size: 14px; font-weight: 700; color: var(--text-dim) }
-  .lock-foot{
-    margin-top: 12px;
-    font-size: 11.5px; color: var(--text-mute); font-weight: 600;
-  }
-  .pin-shake{ animation: pinShake .35s ease }
-  @keyframes pinShake{
-    0%,100%{ transform: translateX(0) }
-    20%{ transform: translateX(-8px) }
-    40%{ transform: translateX(8px) }
-    60%{ transform: translateX(-5px) }
-    80%{ transform: translateX(5px) }
-  }
-
-  /* iOS-style switch toggle */
-  .switch{
-    position: relative; display: inline-block;
-    width: 50px; height: 28px; flex-shrink: 0;
-  }
-  .switch input{ opacity: 0; width: 0; height: 0 }
-  .switch .slider{
-    position: absolute; cursor: pointer; inset: 0;
-    background: var(--surface-2); border: 1px solid var(--stroke);
-    border-radius: 999px;
-    transition: background .25s ease, border-color .25s ease;
-  }
-  .switch .slider:before{
-    content: ''; position: absolute;
-    width: 20px; height: 20px; left: 3px; top: 3px;
-    background: white; border-radius: 50%;
-    transition: transform .25s cubic-bezier(.4,0,.2,1);
-    box-shadow: 0 2px 6px rgba(0,0,0,.3);
-  }
-  .switch input:checked + .slider{
-    background: linear-gradient(135deg, var(--brand-a), var(--brand-b));
-    border-color: transparent;
-  }
-  .switch input:checked + .slider:before{ transform: translateX(22px) }
-
   .sec-list{ list-style: none; padding:0; margin:0 }
   .sec-list li{
     font-size: 12.5px; color: var(--text-dim);
@@ -1229,21 +1130,80 @@
   .pc-name{ font-weight:700; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
   .pc-phone{ font-size:12px; color:var(--text-dim); margin-top:2px }
 
-  /* Onboarding sheet */
-  .onboard-sheet h2{
-    text-align:center; font-size:22px; margin:4px 0 6px;
+  /* ============== Welcome / Onboarding (login-like) ============== */
+  .welcome-screen{
+    position: fixed; inset: 0; z-index: 200;
+    background:
+      radial-gradient(900px 500px at 20% 10%, rgba(124,92,255,.18), transparent 70%),
+      radial-gradient(800px 500px at 80% 100%, rgba(255,92,168,.14), transparent 70%),
+      linear-gradient(180deg, #0a0820 0%, #06051a 100%);
+    display: grid; place-items: center;
+    padding: 24px;
+    overflow-y: auto;
+    animation: fadeUp .35s ease both;
   }
-  .onboard-sheet .logo{
-    width:72px; height:72px; border-radius:22px;
+  .welcome-screen[hidden]{ display: none !important; }
+  .welcome-card{
+    width: 100%; max-width: 380px;
+    padding: 28px 24px 22px;
+    border-radius: 28px;
+    background: var(--surface);
+    border: 1px solid var(--stroke);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.5);
+    text-align: center;
+  }
+  .welcome-logo{
+    width: 72px; height: 72px; border-radius: 22px;
     background: linear-gradient(135deg, var(--brand-a), var(--brand-b));
-    display:grid; place-items:center;
-    color:white; font-size:34px; font-weight:800;
-    margin: 8px auto 14px;
+    display: grid; place-items: center;
+    margin: 0 auto 14px;
+    color: white; font-size: 34px; font-weight: 800;
     box-shadow: var(--shadow-glow);
     animation: pop .6s ease;
   }
-  .onboard-sheet .tagline{
-    text-align:center; color:var(--text-dim); font-size:13px; margin-bottom:22px;
+  .welcome-card h1{
+    font-size: 22px; font-weight: 800; margin-bottom: 6px;
+  }
+  .welcome-sub{
+    font-size: 13.5px; color: var(--text-dim);
+    margin-bottom: 22px; line-height: 1.5;
+  }
+  .welcome-form{ text-align: left; }
+  .welcome-form .field{ margin-bottom: 14px; }
+  .welcome-form input{
+    width: 100%; padding: 14px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--stroke);
+    border-radius: 14px;
+    color: var(--text); font-size: 15px; font-weight: 500;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .welcome-form input:focus{
+    outline: none;
+    border-color: var(--brand-a);
+    background: rgba(124,92,255,.08);
+    box-shadow: 0 0 0 3px rgba(124,92,255,.18);
+  }
+  .welcome-form input.invalid{
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px rgba(255,92,128,.16);
+  }
+  .field-err{
+    display: block;
+    min-height: 16px;
+    font-size: 12px; font-weight: 600;
+    color: var(--danger);
+    margin-top: 6px;
+    padding-left: 2px;
+    opacity: 0; transform: translateY(-2px);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .field-err.show{ opacity: 1; transform: translateY(0); }
+  .welcome-form .primary-btn{ margin-top: 4px; }
+  .welcome-foot{
+    margin-top: 16px;
+    font-size: 11.5px; color: var(--text-mute); font-weight: 600;
+    text-align: center;
   }
 
   /* ============== Insights ============== */
@@ -1414,37 +1374,24 @@
 </head>
 <body>
 
-<!-- ============ App Lock (PIN) ============ -->
-<div class="lock-screen" id="lockScreen" hidden>
-  <div class="lock-card">
-    <div class="lock-logo">🔒</div>
-    <h2 id="lockTitle">Enter PIN</h2>
-    <div class="lock-sub" id="lockSub">Unlock Pocket to continue</div>
-    <div class="pin-display" id="pinDisplay">
-      <span class="pin-dot"></span><span class="pin-dot"></span>
-      <span class="pin-dot"></span><span class="pin-dot"></span>
-      <span class="pin-dot"></span><span class="pin-dot"></span>
-    </div>
-    <div class="pin-error" id="pinError"></div>
-    <div class="pin-pad" id="pinPad">
-      <button class="pin-key" data-k="1">1</button>
-      <button class="pin-key" data-k="2">2</button>
-      <button class="pin-key" data-k="3">3</button>
-      <button class="pin-key" data-k="4">4</button>
-      <button class="pin-key" data-k="5">5</button>
-      <button class="pin-key" data-k="6">6</button>
-      <button class="pin-key" data-k="7">7</button>
-      <button class="pin-key" data-k="8">8</button>
-      <button class="pin-key" data-k="9">9</button>
-      <button class="pin-key ghost" data-k="cancel" id="pinCancel" hidden>Cancel</button>
-      <button class="pin-key" data-k="0">0</button>
-      <button class="pin-key ghost" data-k="del">⌫</button>
-    </div>
-    <div class="row mt" style="gap:10px">
-      <button class="ghost-btn" id="lockForgot" style="flex:1">Forgot? Reset app</button>
-      <button class="primary-btn" id="lockConfirm" style="flex:1" hidden>Confirm</button>
-    </div>
-    <div class="lock-foot">🛡️ PIN never leaves this device.</div>
+<!-- ============ Welcome / Onboarding (first-time login-like) ============ -->
+<div class="welcome-screen" id="welcomeScreen" hidden>
+  <div class="welcome-card">
+    <div class="welcome-logo">₹</div>
+    <h1>Welcome to Pocket</h1>
+    <div class="welcome-sub">Track expenses in under 2 seconds.<br/>Tell us a bit about you to get started.</div>
+    <form class="welcome-form" id="welcomeForm" novalidate>
+      <div class="field">
+        <input id="wcName" type="text" placeholder="Your name" autocomplete="name" maxlength="60" required />
+        <span class="field-err" id="wcNameErr"></span>
+      </div>
+      <div class="field">
+        <input id="wcPhone" type="tel" inputmode="numeric" placeholder="10-digit phone number" autocomplete="tel" maxlength="10" required />
+        <span class="field-err" id="wcPhoneErr"></span>
+      </div>
+      <button type="submit" class="primary-btn" id="wcSubmit">Continue</button>
+    </form>
+    <div class="welcome-foot">🔒 Stored only on this device. Never shared.</div>
   </div>
 </div>
 
@@ -1733,7 +1680,7 @@
         </div>
         <div class="field">
           <label>Phone number</label>
-          <input id="pfPhone" inputmode="numeric" maxlength="15" placeholder="e.g. 9876543210" autocomplete="tel" />
+          <input id="pfPhone" inputmode="numeric" maxlength="10" placeholder="10-digit phone number" autocomplete="tel" />
         </div>
         <button class="primary-btn" id="pfSave">Save profile</button>
       </div>
@@ -1820,23 +1767,6 @@
         <div class="pn-body">
           <div class="pn-title">You control your data</div>
           <div class="pn-text">Pocket runs entirely in your browser. There are no analytics, no trackers, and no remote servers. A strict Content Security Policy blocks all outbound network requests.</div>
-        </div>
-      </div>
-
-      <div class="glass card mb">
-        <div class="spread">
-          <div>
-            <div style="font-weight:700; font-size:14.5px">App lock (PIN)</div>
-            <div class="tiny muted" id="lockStateLabel">Off — anyone who opens this page can see your data</div>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="lockToggle" />
-            <span class="slider"></span>
-          </label>
-        </div>
-        <div class="row mt" style="gap:10px" id="lockActions" hidden>
-          <button class="ghost-btn" id="btnChangePin" style="flex:1">Change PIN</button>
-          <button class="ghost-btn" id="btnLockNow" style="flex:1">Lock now</button>
         </div>
       </div>
 
@@ -2263,23 +2193,6 @@
     </div>
   </div>
 
-  <!-- Onboarding sheet (first run) -->
-  <div class="sheet onboard-sheet" id="sheet-onboard">
-    <div class="grab"></div>
-    <div class="logo">₹</div>
-    <h2>Welcome to Pocket</h2>
-    <div class="tagline">Track expenses in under 2 seconds.<br/>Let's set up your profile.</div>
-    <div class="field">
-      <label>Your name</label>
-      <input id="obName" placeholder="e.g. Aarav" autocomplete="name" />
-    </div>
-    <div class="field">
-      <label>Phone number</label>
-      <input id="obPhone" inputmode="numeric" maxlength="15" placeholder="e.g. 9876543210" autocomplete="tel" />
-    </div>
-    <button class="primary-btn" id="obSave">Continue</button>
-    <button class="ghost-btn" id="obSkip" style="width:100%; margin-top:8px">Skip for now</button>
-  </div>
 
   <!-- Confirm sheet -->
   <div class="sheet" id="sheet-confirm">
@@ -2416,7 +2329,8 @@
     if(!state.splits) state.splits = [];
     if(!state.settings) state.settings = {};
     if(!state.settings.profile) state.settings.profile = { name:'', phone:'' };
-    if(!state.settings.security) state.settings.security = { pinHash:null, pinSalt:null };
+    // Drop any leftover lock/PIN data from prior versions of the app.
+    if(state.settings.security) delete state.settings.security;
     // Sanitize profile fields on load (defense-in-depth)
     state.settings.profile.name  = sanitizeText(state.settings.profile.name, 60);
     state.settings.profile.phone = sanitizePhone(state.settings.profile.phone);
@@ -2486,186 +2400,17 @@
     return true;
   }
 
-  // ============================================================
-  // PIN lock — SHA-256(salt + pin), stored in localStorage.
-  // PIN never leaves the device. Hash + salt make casual snooping
-  // of localStorage useless without brute-forcing.
-  // ============================================================
-  async function sha256Hex(text){
-    if(!(window.crypto && window.crypto.subtle)){
-      // Extremely small fallback (FNV-1a) — only used on legacy browsers
-      // where SubtleCrypto is unavailable. Still better than plaintext.
-      let h = 0x811c9dc5;
-      for(let i=0;i<text.length;i++){
-        h ^= text.charCodeAt(i);
-        h = (h * 0x01000193) >>> 0;
-      }
-      return ('00000000' + h.toString(16)).slice(-8);
-    }
-    const enc = new TextEncoder().encode(text);
-    const buf = await window.crypto.subtle.digest('SHA-256', enc);
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-  function randomSalt(){
-    const a = new Uint8Array(16);
-    if(window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(a);
-    else for(let i=0;i<a.length;i++) a[i] = Math.floor(Math.random()*256);
-    return Array.from(a).map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-  async function hashPin(pin, salt){
-    return sha256Hex(salt + ':' + pin);
+  // One-time cleanup: drop any legacy lock/PIN keys from previous versions.
+  // Safe to call repeatedly; missing keys are silently ignored.
+  function clearLegacyLockKeys(){
+    try{
+      ['app_pin', 'isLocked', 'lockEnabled', 'pocket.pin', 'pocket.security']
+        .forEach(k => localStorage.removeItem(k));
+    } catch(_){}
   }
 
-  const PIN_MIN = 4, PIN_MAX = 6;
-
-  function pinIsSet(){
-    const s = state.settings && state.settings.security;
-    return !!(s && s.pinHash && s.pinSalt);
-  }
-
-  // Lock-screen runtime state.
-  const LOCK = {
-    mode: 'unlock',     // 'unlock' | 'set' | 'confirm'
-    pendingHash: null,  // hash captured during 'set' before confirmation
-    pendingSalt: null,
-    buf: '',            // current digit buffer
-    failCount: 0,
-  };
-
-  function refreshPinDots(){
-    const dots = document.querySelectorAll('#pinDisplay .pin-dot');
-    dots.forEach((d, i) => d.classList.toggle('on', i < LOCK.buf.length));
-    document.getElementById('lockConfirm').hidden = !(LOCK.mode === 'set' && LOCK.buf.length >= PIN_MIN);
-  }
-
-  function resetPinUI(message){
-    LOCK.buf = '';
-    document.getElementById('pinError').textContent = message || '';
-    refreshPinDots();
-  }
-
-  async function pinPressDigit(d){
-    if(LOCK.buf.length >= PIN_MAX) return;
-    LOCK.buf += d;
-    refreshPinDots();
-    if(LOCK.mode === 'unlock' && LOCK.buf.length >= PIN_MIN){
-      // Auto-attempt at min length, then again at max.
-      if(LOCK.buf.length === PIN_MAX) await tryUnlock();
-    } else if(LOCK.mode === 'confirm' && LOCK.buf.length === LOCK.pendingHash.expectedLen){
-      await tryConfirm();
-    }
-  }
-
-  async function tryUnlock(){
-    const sec = state.settings.security;
-    const h = await hashPin(LOCK.buf, sec.pinSalt);
-    if(h === sec.pinHash){
-      LOCK.failCount = 0;
-      hideLock();
-    } else {
-      LOCK.failCount++;
-      const card = document.querySelector('.lock-card');
-      card.classList.remove('pin-shake'); void card.offsetWidth; card.classList.add('pin-shake');
-      const wait = LOCK.failCount >= 5 ? 3000 : LOCK.failCount >= 3 ? 1500 : 0;
-      resetPinUI(LOCK.failCount >= 3 ? `Wrong PIN — wait ${Math.ceil(wait/1000)}s` : 'Wrong PIN');
-      if(wait){
-        document.querySelectorAll('.pin-key').forEach(b => b.disabled = true);
-        setTimeout(() => {
-          document.querySelectorAll('.pin-key').forEach(b => b.disabled = false);
-          resetPinUI('');
-        }, wait);
-      }
-    }
-  }
-
-  async function tryConfirm(){
-    const expected = LOCK.pendingHash.value;
-    const candidate = await hashPin(LOCK.buf, LOCK.pendingSalt);
-    if(candidate === expected){
-      state.settings.security = { pinHash: expected, pinSalt: LOCK.pendingSalt };
-      save();
-      LOCK.pendingHash = null; LOCK.pendingSalt = null;
-      hideLock();
-      toast('App lock enabled');
-      renderSecurityPane();
-    } else {
-      const card = document.querySelector('.lock-card');
-      card.classList.remove('pin-shake'); void card.offsetWidth; card.classList.add('pin-shake');
-      // Restart from the "set" step.
-      LOCK.mode = 'set';
-      LOCK.pendingHash = null; LOCK.pendingSalt = null;
-      document.getElementById('lockTitle').textContent = 'Set a PIN';
-      document.getElementById('lockSub').textContent = `Choose a ${PIN_MIN}–${PIN_MAX} digit PIN`;
-      resetPinUI("PINs didn't match — try again");
-    }
-  }
-
-  function showLock(mode){
-    LOCK.mode = mode || 'unlock';
-    LOCK.buf = '';
-    LOCK.pendingHash = null; LOCK.pendingSalt = null;
-    LOCK.failCount = 0;
-    const titleEl = document.getElementById('lockTitle');
-    const subEl = document.getElementById('lockSub');
-    const forgotEl = document.getElementById('lockForgot');
-    const cancelEl = document.getElementById('pinCancel');
-    if(LOCK.mode === 'unlock'){
-      titleEl.textContent = 'Enter PIN';
-      subEl.textContent = 'Unlock Pocket to continue';
-      forgotEl.hidden = false;
-      cancelEl.hidden = true;
-    } else if(LOCK.mode === 'set'){
-      titleEl.textContent = 'Set a PIN';
-      subEl.textContent = `Choose a ${PIN_MIN}–${PIN_MAX} digit PIN`;
-      forgotEl.hidden = true;
-      cancelEl.hidden = false;
-    } else if(LOCK.mode === 'confirm'){
-      titleEl.textContent = 'Confirm PIN';
-      subEl.textContent = 'Re-enter the same PIN';
-      forgotEl.hidden = true;
-      cancelEl.hidden = false;
-    }
-    document.getElementById('lockConfirm').hidden = true;
-    resetPinUI('');
-    const ls = document.getElementById('lockScreen');
-    ls.hidden = false;
-    document.body.style.overflow = 'hidden';
-  }
-  function hideLock(){
-    document.getElementById('lockScreen').hidden = true;
-    document.body.style.overflow = '';
-  }
-
-  function wirePinPad(){
-    const pad = document.getElementById('pinPad');
-    pad.addEventListener('click', async (e) => {
-      const k = e.target.closest('.pin-key'); if(!k) return;
-      const v = k.dataset.k;
-      if(v === 'del'){ LOCK.buf = LOCK.buf.slice(0,-1); refreshPinDots(); return; }
-      if(v === 'cancel'){ hideLock(); LOCK.pendingHash=null; LOCK.pendingSalt=null; return; }
-      if(/^[0-9]$/.test(v)) await pinPressDigit(v);
-    });
-    document.getElementById('lockConfirm').addEventListener('click', async () => {
-      // 'set' mode: capture the entered PIN, move to confirm.
-      if(LOCK.mode !== 'set' || LOCK.buf.length < PIN_MIN) return;
-      const salt = randomSalt();
-      const h = await hashPin(LOCK.buf, salt);
-      LOCK.pendingHash = { value: h, expectedLen: LOCK.buf.length };
-      LOCK.pendingSalt = salt;
-      LOCK.mode = 'confirm';
-      LOCK.buf = '';
-      document.getElementById('lockTitle').textContent = 'Confirm PIN';
-      document.getElementById('lockSub').textContent = 'Re-enter the same PIN';
-      document.getElementById('lockConfirm').hidden = true;
-      resetPinUI('');
-    });
-    document.getElementById('lockForgot').addEventListener('click', () => {
-      // Hard reset path — we cannot recover the PIN.
-      const ok = window.confirm('Forgot your PIN?\n\nWe cannot recover it. To regain access we must clear ALL stored data on this device. Continue?');
-      if(!ok) return;
-      try{ safeStorage.remove(LS_KEY); safeStorage.remove(LEGACY_KEY); }catch(_){}
-      location.reload();
-    });
+  function clearUserProfileMirror(){
+    try{ localStorage.removeItem('userProfile'); } catch(_){}
   }
 
   function uid(){ return Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4); }
@@ -4623,10 +4368,7 @@ ${summary}`;
   document.getElementById('btnExport').addEventListener('click', () => {
     if(!rateLimit('json-export', 1500)){ toast('Slow down a moment', 'error'); return; }
     try{
-      // Strip security settings out of backups so a leaked file
-      // cannot be used to brute-force the PIN offline.
       const exportable = JSON.parse(JSON.stringify(state));
-      if(exportable.settings && exportable.settings.security) delete exportable.settings.security;
       const payload = {
         app: 'pocket',
         version: STORE_VERSION,
@@ -4667,14 +4409,9 @@ ${summary}`;
       if(!data || !Array.isArray(data.cards) || !Array.isArray(data.categories) || !Array.isArray(data.transactions)){
         throw new Error('Backup file is missing required sections');
       }
-      // Replace state but keep current security settings (don't accidentally
-      // wipe an existing PIN by importing an old backup).
-      const keepSecurity = (state.settings && state.settings.security) || null;
       state = Object.assign({ splits:[], settings:{} }, data);
-      if(keepSecurity){
-        state.settings = state.settings || {};
-        state.settings.security = keepSecurity;
-      }
+      // Drop any lock/PIN data that may exist in older backups.
+      if(state.settings && state.settings.security) delete state.settings.security;
       save(); toast('Imported'); renderSettings(); renderHome();
     } catch(err){
       toast(err && err.message ? err.message : 'Invalid file', 'error');
@@ -4686,14 +4423,19 @@ ${summary}`;
     });
   });
   document.getElementById('btnReset').addEventListener('click', () => {
-    confirm('Clear all data?', 'This permanently deletes every transaction, card, category, profile, and PIN. This cannot be undone.', () => {
+    confirm('Clear all data?', 'This permanently deletes every transaction, card, category, and profile. This cannot be undone.', () => {
       try{
         safeStorage.remove(LS_KEY);
         safeStorage.remove(LEGACY_KEY);
+        clearLegacyLockKeys();
+        clearUserProfileMirror();
       } catch(_){}
-      state = { cards:[], categories:[], transactions:[], splits:[], settings:{ security:{ pinHash:null, pinSalt:null } } };
+      state = { cards:[], categories:[], transactions:[], splits:[], settings:{ profile:{ name:'', phone:'' } } };
       seedDefaults();
       renderHome(); renderSettings(); toast('All data cleared');
+      // Back to the login screen. Uses the explicit UI-state function
+      // (not initApp) so we never re-run boot.
+      showLoginScreen();
     });
   });
 
@@ -4755,45 +4497,168 @@ ${summary}`;
     }
   });
 
-  // ---------- Profile ----------
-  function saveProfile(name, phone, silent){
-    state.settings.profile = {
-      name: sanitizeText(name, 60),
-      phone: sanitizePhone(phone),
-    };
+  // ============================================================
+  // Onboarding + Profile — single source of truth.
+  // Rule: localStorage["userProfile"] is the ONLY thing that decides
+  // whether the app shows onboarding or the main app. The richer
+  // state.settings.profile (wrapped store) stays in lockstep with it.
+  // ============================================================
+  const USER_PROFILE_KEY = 'userProfile';
+
+  function isValidName(n){ return !!String(n || '').trim(); }
+  function isValidPhone(p){ return /^\d{10}$/.test(String(p || '').replace(/\D/g, '')); }
+
+  // Read the single source of truth. Gracefully handles corruption.
+  function getUserProfile(){
+    let raw = null;
+    try{ raw = localStorage.getItem(USER_PROFILE_KEY); } catch(_){ return null; }
+    if(!raw) return null;
+    try{
+      const parsed = JSON.parse(raw);
+      if(parsed && isValidName(parsed.name) && isValidPhone(parsed.phone)){
+        return { name: String(parsed.name).trim(), phone: String(parsed.phone).replace(/\D/g, '') };
+      }
+      // Shape is wrong / values invalid → treat as corrupted.
+      console.warn('[onboard] userProfile is malformed, clearing', parsed);
+      try{ localStorage.removeItem(USER_PROFILE_KEY); } catch(_){}
+      return null;
+    } catch(e){
+      console.warn('[onboard] userProfile JSON corrupted, clearing:', e);
+      try{ localStorage.removeItem(USER_PROFILE_KEY); } catch(_){}
+      return null;
+    }
+  }
+
+  // Single write path — updates BOTH the mirror key and the in-app state.
+  function saveUserProfile(name, phone){
+    const cleanName  = sanitizeText(name, 60);
+    const cleanPhone = String(phone || '').replace(/\D/g, '').slice(0, 10);
+    console.log('[onboard] Saving profile...', { name: cleanName, phone: cleanPhone });
+    const p = { name: cleanName, phone: cleanPhone };
+    try{ localStorage.setItem(USER_PROFILE_KEY, JSON.stringify(p)); }
+    catch(e){ console.warn('[onboard] Failed to write userProfile:', e); }
+    state.settings.profile = p;
     save();
     renderProfileCard();
     renderProfilePane();
     renderHome();
-    if(!silent) toast('Profile saved');
+    return p;
   }
 
-  document.getElementById('pfSave').addEventListener('click', () => {
+  // Profile-pane "Save" button (Settings → Profile → Edit).
+  // Uses the same single write path. No UI state toggles here — we're
+  // already inside the main app.
+  document.getElementById('pfSave').onclick = function handlePfSave(){
     const n = sanitizeText(document.getElementById('pfName').value, 60);
     const p = sanitizePhone(document.getElementById('pfPhone').value);
-    if(!n){ toast('Please enter your name','error'); return; }
-    saveProfile(n, p);
-  });
+    if(!isValidName(n)){ toast('Please enter your name','error'); return; }
+    if(!isValidPhone(p)){ toast('Phone must be exactly 10 digits','error'); return; }
+    saveUserProfile(n, p);
+    toast('Profile saved');
+  };
 
-  // ---------- Onboarding ----------
-  function openOnboarding(){
-    document.getElementById('obName').value = '';
-    document.getElementById('obPhone').value = '';
-    openSheet('sheet-onboard');
-    setTimeout(()=> document.getElementById('obName').focus(), 350);
+  // ============================================================
+  // UI state switching — three explicit, single-responsibility funcs.
+  // ============================================================
+  const welcomeEl  = document.getElementById('welcomeScreen');
+  const appEl      = document.getElementById('app');
+  const wcForm     = document.getElementById('welcomeForm');
+  const wcName     = document.getElementById('wcName');
+  const wcPhone    = document.getElementById('wcPhone');
+  const wcNameErr  = document.getElementById('wcNameErr');
+  const wcPhoneErr = document.getElementById('wcPhoneErr');
+
+  function setFieldError(input, errEl, msg){
+    if(msg){
+      input.classList.add('invalid');
+      errEl.textContent = msg;
+      errEl.classList.add('show');
+    } else {
+      input.classList.remove('invalid');
+      errEl.textContent = '';
+      errEl.classList.remove('show');
+    }
   }
-  document.getElementById('obSave').addEventListener('click', () => {
-    const n = sanitizeText(document.getElementById('obName').value, 60);
-    const p = sanitizePhone(document.getElementById('obPhone').value);
-    if(!n){ toast('Please enter your name','error'); return; }
-    saveProfile(n, p, true);
-    closeSheet();
+
+  // Show / hide are dead-simple. No fade animations, no setTimeout —
+  // hidden=true is the single, synchronous source of truth for visibility.
+  function showLoginScreen(){
+    console.log('[onboard] Showing login');
+    const p = state.settings.profile || { name:'', phone:'' };
+    wcName.value  = p.name || '';
+    wcPhone.value = String(p.phone || '').replace(/\D/g, '').slice(0, 10);
+    setFieldError(wcName, wcNameErr, '');
+    setFieldError(wcPhone, wcPhoneErr, '');
+    welcomeEl.hidden = false;
+    if(appEl) appEl.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => { try{ wcName.focus(); }catch(_){} }, 50);
+  }
+
+  function hideLoginScreen(){
+    welcomeEl.hidden = true;
+    if(appEl) appEl.removeAttribute('aria-hidden');
+    document.body.style.overflow = '';
+  }
+
+  function showMainApp(){
+    console.log('[onboard] Showing main app');
+    hideLoginScreen();
+    const splash = document.getElementById('splash');
+    if(splash){ splash.classList.add('gone'); setTimeout(() => splash.remove(), 500); }
+    nav('home');
+  }
+
+  // Back-compat aliases for older call-sites in this file.
+  const showOnboarding = showLoginScreen;
+  const hideOnboarding = hideLoginScreen;
+
+  // ---------- Single submit handler, attached ONCE via .onsubmit ----------
+  function handleOnboardSubmit(e){
+    if(e && e.preventDefault) e.preventDefault();
+    const n = sanitizeText(wcName.value, 60);
+    const p = String(wcPhone.value || '').replace(/\D/g, '');
+
+    // Validate
+    const nameOk  = isValidName(n);
+    const phoneOk = isValidPhone(p);
+    setFieldError(wcName,  wcNameErr,  nameOk  ? '' : 'Please enter your name');
+    setFieldError(wcPhone, wcPhoneErr, phoneOk ? '' : 'Phone must be exactly 10 digits');
+    if(!nameOk || !phoneOk){
+      (nameOk ? wcPhone : wcName).focus();
+      return false;
+    }
+
+    // Save → switch UI. No reload, no init.
+    saveUserProfile(n, p);
+    hideLoginScreen();
+    showMainApp();
     toast(`Welcome, ${firstName(n)}`);
-  });
-  document.getElementById('obSkip').addEventListener('click', () => {
-    state.settings.firstRun = false; save();
-    closeSheet();
-  });
+    return false;
+  }
+
+  // Attach exactly once, overwriting any prior handler (prevents dupes
+  // even under hot-reload / accidental re-execution).
+  wcForm.onsubmit = handleOnboardSubmit;
+
+  // Live input hygiene — strip non-digits from phone, clear errors as
+  // the user types valid values. These are property assignments so
+  // repeated evaluation would not accumulate listeners.
+  wcPhone.oninput = function(){
+    const cleaned = wcPhone.value.replace(/\D/g, '').slice(0, 10);
+    if(cleaned !== wcPhone.value) wcPhone.value = cleaned;
+    if(wcPhone.classList.contains('invalid') && isValidPhone(cleaned)){
+      setFieldError(wcPhone, wcPhoneErr, '');
+    }
+  };
+  wcName.oninput = function(){
+    if(wcName.classList.contains('invalid') && isValidName(wcName.value)){
+      setFieldError(wcName, wcNameErr, '');
+    }
+  };
+
+  // Back-compat for any call-sites still using the old name.
+  function openOnboarding(){ showOnboarding(); }
 
   // Numpad delegated
   document.getElementById('numpad').addEventListener('click', (e) => {
@@ -5603,22 +5468,13 @@ ${summary}`;
     btn.addEventListener('click', startVoice);
   })();
 
-  // ---------- Security pane ----------
+  // ---------- Security pane (read-only — only privacy info & storage stats) ----------
   function bytesPretty(n){
     if(n < 1024) return n + ' B';
     if(n < 1024*1024) return (n/1024).toFixed(1) + ' KB';
     return (n/1024/1024).toFixed(2) + ' MB';
   }
   function renderSecurityPane(){
-    const enabled = pinIsSet();
-    const toggle = document.getElementById('lockToggle');
-    if(toggle) toggle.checked = enabled;
-    const lbl = document.getElementById('lockStateLabel');
-    if(lbl) lbl.textContent = enabled
-      ? 'On — a PIN is required when you open this app'
-      : 'Off — anyone who opens this page can see your data';
-    const acts = document.getElementById('lockActions');
-    if(acts) acts.hidden = !enabled;
     const info = document.getElementById('storageInfo');
     if(info){
       const size = safeStorage.sizeBytes();
@@ -5626,81 +5482,81 @@ ${summary}`;
     }
   }
 
-  document.getElementById('lockToggle').addEventListener('change', (e) => {
-    if(e.target.checked && !pinIsSet()){
-      // Begin PIN setup flow.
-      showLock('set');
-    } else if(!e.target.checked && pinIsSet()){
-      confirm('Disable PIN lock?', 'Your data will no longer require a PIN to open.', () => {
-        state.settings.security = { pinHash: null, pinSalt: null };
-        save();
-        renderSecurityPane();
-        toast('App lock disabled');
-      });
-      // revert visual until confirmed; renderSecurityPane will sync after confirm.
-      e.target.checked = pinIsSet();
+  // ============================================================
+  // initApp — runs exactly once on page load.
+  // Responsibility:
+  //  1. Load persisted state (fail-safe on corruption).
+  //  2. Back-fill userProfile mirror from older installs if needed.
+  //  3. Branch based on getUserProfile() → onboarding vs main app.
+  // initApp MUST NOT be called after profile save. Use showMainApp.
+  // ============================================================
+  let __appInitialized = false;
+  function initApp(){
+    if(__appInitialized){
+      console.warn('[onboard] initApp() called more than once — ignoring.');
+      return;
     }
-  });
-  document.getElementById('btnChangePin').addEventListener('click', () => {
-    if(!pinIsSet()) return;
-    state.settings.security = { pinHash: null, pinSalt: null };
-    save();
-    showLock('set');
-  });
-  document.getElementById('btnLockNow').addEventListener('click', () => {
-    if(!pinIsSet()){ toast('Enable PIN lock first', 'error'); return; }
-    showLock('unlock');
-  });
+    __appInitialized = true;
 
-  wirePinPad();
+    try{ clearLegacyLockKeys(); } catch(_){}
 
-  // Re-lock when the tab is hidden for a while (defense against shoulder-surfing).
-  let hideAt = 0;
-  document.addEventListener('visibilitychange', () => {
-    if(!pinIsSet()) return;
-    if(document.hidden){ hideAt = Date.now(); }
-    else {
-      // Re-lock if hidden for > 60 seconds.
-      if(hideAt && Date.now() - hideAt > 60_000){
-        showLock('unlock');
-      }
-      hideAt = 0;
+    // Load persisted state. If anything explodes, reset gracefully —
+    // but do NOT wipe the user profile (they can re-enter nothing useful).
+    try{
+      load();
+    } catch(e){
+      console.warn('[onboard] Store corrupted, resetting in-memory state:', e);
+      state = { cards:[], categories:[], transactions:[], splits:[], settings:{ profile:{ name:'', phone:'' } } };
+      try{ safeStorage.remove(LS_KEY); safeStorage.remove(LEGACY_KEY); }catch(_){}
     }
-  });
 
-  // ---------- Boot ----------
-  function boot(){
-    load();
-    const hadData = state.cards.length>0 || state.categories.length>0;
-    const isFirstRun = !hadData || state.settings.firstRun === true;
-    if(!hadData){
+    if(state.cards.length === 0 && state.categories.length === 0){
       seedDefaults();
     }
 
-    // If a PIN was set previously, lock the app immediately. The
-    // splash hides only after the user unlocks (or skips via reset).
-    if(pinIsSet()){
-      showLock('unlock');
+    // Back-fill the mirror from the wrapped store for users upgrading
+    // from an older version that didn't write userProfile.
+    const mirror = getUserProfile();
+    const fromStore = state.settings.profile || { name:'', phone:'' };
+    if(!mirror && isValidName(fromStore.name) && isValidPhone(fromStore.phone)){
+      try{
+        localStorage.setItem(USER_PROFILE_KEY, JSON.stringify({
+          name: String(fromStore.name).trim(),
+          phone: String(fromStore.phone).replace(/\D/g, ''),
+        }));
+      } catch(_){}
+    }
+    // And the reverse: if the mirror is present but state is stale.
+    if(mirror){
+      state.settings.profile = { name: mirror.name, phone: mirror.phone };
     }
 
-    nav('home');
-    setTimeout(()=>{
-      document.getElementById('splash').classList.add('gone');
-      setTimeout(()=> {
-        const splash = document.getElementById('splash');
-        if(splash) splash.remove();
-      }, 500);
-      const profile = state.settings.profile || {};
-      const needsProfile = isFirstRun && !(profile.name && profile.name.trim());
-      if(needsProfile && !pinIsSet()){
-        setTimeout(openOnboarding, 250);
+    const user = getUserProfile();
+    console.log('[onboard] initApp · user profile:', user);
+
+    if(!user){
+      // First-time user — show the login screen.
+      showLoginScreen();
+      // Pre-render home *behind* the overlay so the swap is instant.
+      try{ nav('home'); }catch(_){}
+      const splash = document.getElementById('splash');
+      if(splash){
+        splash.classList.add('gone');
+        setTimeout(() => splash.remove(), 500);
       }
-      state.settings.firstRun = false;
-      save();
-    }, 500);
+    } else {
+      // Returning user — straight to the main app.
+      showMainApp();
+      setTimeout(() => {
+        if(state.settings) state.settings.firstRun = false;
+        save();
+      }, 500);
+    }
   }
 
-  boot();
+  // Kick off exactly once. DOM is already parsed because this script tag
+  // sits at end-of-body; no extra DOMContentLoaded wiring needed.
+  initApp();
 })();
 </script>
 </body>
